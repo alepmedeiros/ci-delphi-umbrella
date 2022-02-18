@@ -27,12 +27,17 @@ jobs:
         run: .\build.bat .\src\application GitActionLogin.dproj
 
       - name: Compact archive
-        run: Add-Type -AssemblyName System.IO.Compression.FileSystem ; [System.IO.Compression.ZipFile]::CreatefromDirectory("$PWD\src\application\Win32\Debug", "$PWD\src\application\Win32\Debug\GitActionLogin.zip")
+        # run: Add-Type -AssemblyName System.IO.Compression.FileSystem ; [System.IO.Compression.ZipFile]::CreatefromDirectory("$PWD\src\application\Win32\Debug\GitActionLogin.exe", "$PWD\GitActionLogin.zip")
+        run: Compress-Archive -Path src\application\Win32\Debug\GitActionLogin.exe -DestinationPath .\GitActionLogin.zip
+
+      # Incluido para manter as congigurações do aws s3 e demais informações necessárias
+      # - name: Cache configuration
+      #   run: Compress-Archive -Path src\application\config\GitActionLogin.lc4 -DestinationPath .\GitActionLogin.zip
 
       - uses: actions/upload-artifact@v2
         with:
           name: build
-          path: .\src\application\Win32\Debug\GitActionLogin.zip
+          path: .\GitActionLogin.zip
 
   deploy:
     needs: build
