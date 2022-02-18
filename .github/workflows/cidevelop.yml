@@ -10,15 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Make changes to pull request
-        run: date +%s > DadosNormal.txt
-
+      
       - name: Raise PR
         uses: peter-evans/create-pull-request@v3
         with:
           branch: "auto-pr-branch"
-          base: develop
+          base: master
           title: "demo for auto pr"
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
